@@ -17,7 +17,10 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(title: const Text('PRAKTIKUM MOBILE LANJUT')),
         body: const Center(
-          child: Text('Hallo Nama saya Putra', textAlign: TextAlign.center),
+          child: Text(
+            'Hallo Nama saya Putra cakep',
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );
