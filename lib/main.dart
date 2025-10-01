@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
+import 'screens/dashboard_screen.dart'; // ← tambah
 
-void main() {
-  runApp(const MoLaApp());
-}
+void main() => runApp(const MoLaApp());
 
 class MoLaApp extends StatelessWidget {
   const MoLaApp({super.key});
@@ -13,7 +12,7 @@ class MoLaApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'MoLa – Pertemuan 4',
+      title: 'MoLa – Pertemuan 5',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF6C63FF)),
         useMaterial3: true,
@@ -22,26 +21,8 @@ class MoLaApp extends StatelessWidget {
       routes: {
         '/login': (_) => const LoginScreen(),
         '/signup': (_) => const SignUpScreen(),
-        '/home': (_) => const HomeScreen(),
+        '/dashboard': (_) => const DashboardScreen(), // ← route baru
       },
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Beranda')),
-      body: const Center(
-        child: Text(
-          'Login/Register berhasil! 🎉',
-          style: TextStyle(fontSize: 18),
-          textAlign: TextAlign.center,
-        ),
-      ),
     );
   }
 }
