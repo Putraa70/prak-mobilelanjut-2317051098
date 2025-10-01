@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-// ignore: unused_import
-import 'package:myapp/main.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -35,12 +33,12 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 12),
-              // === Brand Header seperti gambar (logo + tulisan Justduit) ===
+              // Brand Header (logo + teks)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/logo-mola.png', // ganti dengan logo Justduit jika ada
+                    'assets/logo-mola.png',
                     width: size.width * 0.18,
                     height: 48,
                     fit: BoxFit.contain,
@@ -61,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 14),
 
-              // === Card putih rounded berisi form ===
+              // Card putih berisi form
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -87,6 +85,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: _emailCtrl,
                         keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        autofillHints: const [
+                          AutofillHints.username,
+                          AutofillHints.email,
+                        ],
                         decoration: InputDecoration(
                           label: RichText(
                             text: const TextSpan(
@@ -133,6 +136,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: _passwordCtrl,
                         obscureText: _obscure,
+                        textInputAction: TextInputAction.done,
+                        autofillHints: const [AutofillHints.password],
                         decoration: InputDecoration(
                           label: RichText(
                             text: const TextSpan(
@@ -194,12 +199,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF2F80ED), // biru
-                            foregroundColor: Colors.white, // teks jadi putih
+                            foregroundColor: Colors.white, // teks putih
                             shape: const StadiumBorder(),
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              Navigator.pushReplacementNamed(context, '/home');
+                              // Arahkan ke dashboard sesuai tugas lanjutan
+                              Navigator.pushReplacementNamed(
+                                context,
+                                '/dashboard',
+                              );
                             }
                           },
                           child: const Text('Sign In Now'),
