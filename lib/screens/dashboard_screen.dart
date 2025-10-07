@@ -16,156 +16,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       backgroundColor: const Color(0xFFF5F7FB),
       appBar: AppBar(
         title: const Text('Dashboard'),
-        centerTitle: false,
         backgroundColor: Colors.white,
+        elevation: 0.8,
         surfaceTintColor: Colors.white,
-        elevation: 0.5,
       ),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-          children: [
-            // ====== Salam + Nama ======
-            const Text(
-              'Selamat Datang,',
-              style: TextStyle(fontSize: 14, color: Colors.black54),
-            ),
-            const Text(
-              'Putra',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
-            ),
-            const SizedBox(height: 12),
-
-            // ====== Kartu Saldo (sesuai screenshot) ======
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(18),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(.06),
-                    blurRadius: 16,
-                    offset: const Offset(0, 10),
-                  ),
-                ],
-              ),
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 36,
-                        height: 36,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFEFF4FF),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Icon(
-                          Icons.account_balance_wallet_outlined,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      const Text(
-                        'Saldo Saat Ini',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black54,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Rp 1.234.567',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 0.2,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    height: 48,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF2F80ED),
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        elevation: 0,
-                      ),
-                      onPressed: () {
-                        // TODO: arahkan ke halaman detail transaksi
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Detail transaksi coming soon 👀'),
-                          ),
-                        );
-                      },
-                      child: const Text('Lihat Detail Transaksi'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // ====== Quick Actions (modern) ======
-            const SizedBox(height: 18),
-            const Text(
-              'Quick Actions',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: const [
-                _QuickAction(icon: Icons.send_outlined, label: 'Kirim'),
-                SizedBox(width: 10),
-                _QuickAction(icon: Icons.download_outlined, label: 'Tarik'),
-                SizedBox(width: 10),
-                _QuickAction(icon: Icons.qr_code_scanner, label: 'QRIS'),
-                SizedBox(width: 10),
-                _QuickAction(icon: Icons.add_card_outlined, label: 'Top Up'),
-              ],
-            ),
-
-            // ====== Recent Transactions (modern) ======
-            const SizedBox(height: 20),
-            const Text(
-              'Recent Transactions',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(height: 8),
-            const _TxnTile(
-              icon: Icons.shopping_bag_outlined,
-              title: 'Belanja Marketplace',
-              subtitle: 'Kemarin • 14:32',
-              amount: '- Rp 125.000',
-              negative: true,
-            ),
-            const _TxnTile(
-              icon: Icons.attach_money_outlined,
-              title: 'Transfer Masuk',
-              subtitle: 'Kemarin • 09:10',
-              amount: '+ Rp 500.000',
-              negative: false,
-            ),
-            const _TxnTile(
-              icon: Icons.local_dining_outlined,
-              title: 'Makan Siang',
-              subtitle: 'Senin • 12:15',
-              amount: '- Rp 27.000',
-              negative: true,
-            ),
-            const SizedBox(height: 24),
-          ],
-        ),
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 400),
+        child: _buildDashboardContent(),
       ),
-
-      // ====== Bottom Navigation (modern feel) ======
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
         onDestinationSelected: (i) => setState(() => _currentIndex = i),
@@ -194,9 +52,144 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-}
 
-// ========== WIDGET KECIL ==========
+  Widget _buildDashboardContent() {
+    return ListView(
+      key: const ValueKey('dashboard'),
+      padding: const EdgeInsets.all(16),
+      children: [
+        const Text(
+          'Selamat Datang,',
+          style: TextStyle(fontSize: 14, color: Colors.black54),
+        ),
+        const Text(
+          'Putra 👋',
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 16),
+
+        // ==== Kartu Saldo ====
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(18),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(.06),
+                blurRadius: 16,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFEFF4FF),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(Icons.wallet_outlined,
+                        color: Color(0xFF2F80ED)),
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    'Saldo Saat Ini',
+                    style: TextStyle(color: Colors.black54),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'Rp 1.234.567',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 0.2,
+                ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                height: 46,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF2F80ED),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Fitur Detail Transaksi coming soon 👀'),
+                      ),
+                    );
+                  },
+                  child: const Text('Lihat Detail Transaksi'),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        // ==== Quick Actions ====
+        const SizedBox(height: 22),
+        const Text(
+          'Quick Actions',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: const [
+            _QuickAction(icon: Icons.send_outlined, label: 'Kirim'),
+            SizedBox(width: 10),
+            _QuickAction(icon: Icons.download_outlined, label: 'Tarik'),
+            SizedBox(width: 10),
+            _QuickAction(icon: Icons.qr_code_scanner, label: 'QRIS'),
+            SizedBox(width: 10),
+            _QuickAction(icon: Icons.add_card_outlined, label: 'Top Up'),
+          ],
+        ),
+
+        // ==== Transaksi Terbaru ====
+        const SizedBox(height: 24),
+        const Text(
+          'Recent Transactions',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(height: 8),
+        const _TxnTile(
+          icon: Icons.shopping_bag_outlined,
+          title: 'Belanja Marketplace',
+          subtitle: 'Kemarin • 14:32',
+          amount: '- Rp 125.000',
+          negative: true,
+        ),
+        const _TxnTile(
+          icon: Icons.attach_money_outlined,
+          title: 'Transfer Masuk',
+          subtitle: 'Kemarin • 09:10',
+          amount: '+ Rp 500.000',
+          negative: false,
+        ),
+        const _TxnTile(
+          icon: Icons.local_dining_outlined,
+          title: 'Makan Siang',
+          subtitle: 'Senin • 12:15',
+          amount: '- Rp 27.000',
+          negative: true,
+        ),
+        const SizedBox(height: 30),
+      ],
+    );
+  }
+}
 
 class _QuickAction extends StatelessWidget {
   final IconData icon;
@@ -206,28 +199,32 @@ class _QuickAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Material(
-        color: Colors.white,
-        elevation: 1,
+      child: InkWell(
         borderRadius: BorderRadius.circular(14),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(14),
-          onTap: () {},
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14),
-            child: Column(
-              children: [
-                Icon(icon, size: 24, color: const Color(0xFF2F80ED)),
-                const SizedBox(height: 6),
-                Text(
-                  label,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
+        onTap: () {},
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(14),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          child: Column(
+            children: [
+              Icon(icon, size: 24, color: const Color(0xFF2F80ED)),
+              const SizedBox(height: 6),
+              Text(
+                label,
+                style: const TextStyle(
+                    fontSize: 12, fontWeight: FontWeight.w600),
+              ),
+            ],
           ),
         ),
       ),
@@ -251,19 +248,13 @@ class _TxnTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      elevation: 1,
-      borderRadius: BorderRadius.circular(14),
+    return Card(
+      margin: const EdgeInsets.only(bottom: 10),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       child: ListTile(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        leading: Container(
-          width: 42,
-          height: 42,
-          decoration: BoxDecoration(
-            color: const Color(0xFFEFF4FF),
-            borderRadius: BorderRadius.circular(10),
-          ),
+        leading: CircleAvatar(
+          radius: 22,
+          backgroundColor: const Color(0xFFEFF4FF),
           child: Icon(icon, color: const Color(0xFF2F80ED)),
         ),
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700)),
@@ -275,7 +266,6 @@ class _TxnTile extends StatelessWidget {
             color: negative ? Colors.red : Colors.green,
           ),
         ),
-        onTap: () {},
       ),
     );
   }

@@ -32,8 +32,9 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 12),
-              // Brand Header (logo + teks)
+              const SizedBox(height: 40),
+
+              // === Logo dan Nama Aplikasi ===
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -46,80 +47,57 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(width: 8),
                   const Text(
                     'Justduit',
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0.5,
+                    ),
                   ),
                 ],
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               const Text(
-                'Hi, Welcome Back to Justduit',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-                textAlign: TextAlign.left,
+                'Hi, Welcome Back 👋',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 14),
+              const Text(
+                'Masuk untuk melanjutkan ke dashboard Anda',
+                style: TextStyle(color: Colors.black54),
+              ),
+              const SizedBox(height: 24),
 
-              // Card putih berisi form
+              // === Kartu Form Login ===
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 16,
+                      color: Colors.black.withOpacity(0.06),
+                      blurRadius: 20,
                       offset: const Offset(0, 8),
                     ),
                   ],
                 ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
-                ),
+                padding: const EdgeInsets.all(20),
                 child: Form(
                   key: _formKey,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       // Email
                       TextFormField(
                         controller: _emailCtrl,
                         keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        autofillHints: const [
-                          AutofillHints.username,
-                          AutofillHints.email,
-                        ],
                         decoration: InputDecoration(
-                          label: RichText(
-                            text: const TextSpan(
-                              text: 'Email Address ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: '*',
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ],
-                            ),
-                          ),
-                          hintText: 'Enter your email',
+                          labelText: 'Email Address',
                           prefixIcon: const Icon(Icons.email_outlined),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 14,
-                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(14),
                           ),
                         ),
                         validator: (v) {
-                          if (v == null || v.trim().isEmpty) {
+                          if (v == null || v.isEmpty) {
                             return 'Email wajib diisi';
                           }
                           if (!RegExp(
@@ -130,88 +108,84 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 14),
+                      const SizedBox(height: 16),
 
                       // Password
                       TextFormField(
                         controller: _passwordCtrl,
                         obscureText: _obscure,
-                        textInputAction: TextInputAction.done,
-                        autofillHints: const [AutofillHints.password],
                         decoration: InputDecoration(
-                          label: RichText(
-                            text: const TextSpan(
-                              text: 'Password ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: '*',
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ],
-                            ),
-                          ),
-                          hintText: 'Enter your password',
+                          labelText: 'Password',
                           prefixIcon: const Icon(Icons.lock_outline),
                           suffixIcon: IconButton(
                             icon: Icon(
                               _obscure
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
                             ),
                             onPressed: () =>
                                 setState(() => _obscure = !_obscure),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 14,
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(14),
                           ),
                         ),
                         validator: (v) {
-                          if (v == null || v.isEmpty)
+                          if (v == null || v.isEmpty) {
                             return 'Password wajib diisi';
-                          if (v.length < 6) return 'Minimal 6 karakter';
+                          }
+                          if (v.length < 6) {
+                            return 'Minimal 6 karakter';
+                          }
                           return null;
                         },
                       ),
+                      const SizedBox(height: 10),
 
-                      // Forgot password
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {},
-                          child: const Text('Forgot Password'),
+                          child: const Text('Forgot Password?'),
                         ),
                       ),
+                      const SizedBox(height: 10),
 
-                      const SizedBox(height: 6),
-                      // Tombol biru pill
+                      // Tombol Login
                       SizedBox(
-                        height: 52,
+                        height: 50,
+                        width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF2F80ED), // biru
-                            foregroundColor: Colors.white, // teks putih
-                            shape: const StadiumBorder(),
+                            backgroundColor: const Color(0xFF2F80ED),
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              // Arahkan ke dashboard sesuai tugas lanjutan
-                              Navigator.pushReplacementNamed(
-                                context,
-                                '/dashboard',
+                              // Simulasi login berhasil
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Login berhasil! Selamat datang 👏',
+                                  ),
+                                  duration: Duration(seconds: 2),
+                                ),
                               );
+                              Future.delayed(const Duration(seconds: 1), () {
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  '/dashboard',
+                                );
+                              });
                             }
                           },
-                          child: const Text('Sign In Now'),
+                          child: const Text(
+                            'Sign In Now',
+                            style: TextStyle(fontSize: 16),
+                          ),
                         ),
                       ),
                     ],
@@ -219,19 +193,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
 
-              const SizedBox(height: 18),
-              // Link ke Sign Up
+              const SizedBox(height: 20),
+              // === Link Sign Up ===
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Don\'t have an account? ',
-                    style: TextStyle(color: Colors.grey.shade700),
-                  ),
+                  const Text("Belum punya akun? "),
                   TextButton(
                     onPressed: () =>
                         Navigator.pushReplacementNamed(context, '/signup'),
-                    child: const Text('Sign Up'),
+                    child: const Text('Daftar Sekarang'),
                   ),
                 ],
               ),
